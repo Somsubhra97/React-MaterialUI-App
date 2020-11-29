@@ -35,7 +35,10 @@ const AddressForm = ({ checkoutToken, test }) => {
     setShippingOptions(options);
     setShippingOption(options[0].id);
   };
-
+  const shipping_option=shippingOptions.map((sO) => ({ id: sO.id, label: `${sO.description} - (${sO.price.formatted_with_symbol})` }));
+  const shipping_country=Object.entries(shippingCountries).map(([code, name]) => ({ id: code, label: name }));
+  const shipping_subdivision=Object.entries(shippingSubdivisions).map(([code, name]) => ({ id: code, label: name }));
+  
   useEffect(() => {
     fetchShippingCountries(checkoutToken.id);
   }, []);
@@ -63,7 +66,7 @@ const AddressForm = ({ checkoutToken, test }) => {
             <Grid item xs={12} sm={6}>
               <InputLabel>Shipping Country</InputLabel>
               <Select value={shippingCountry} fullWidth onChange={(e) => setShippingCountry(e.target.value)}>
-                {Object.entries(shippingCountries).map(([code, name]) => ({ id: code, label: name })).map((item) => (
+                {shipping_country.map((item) => (
                   <MenuItem key={item.id} value={item.id}>
                     {item.label}
                   </MenuItem>
@@ -73,7 +76,7 @@ const AddressForm = ({ checkoutToken, test }) => {
             <Grid item xs={12} sm={6}>
               <InputLabel>Shipping Subdivision</InputLabel>
               <Select value={shippingSubdivision} fullWidth onChange={(e) => setShippingSubdivision(e.target.value)}>
-                {Object.entries(shippingSubdivisions).map(([code, name]) => ({ id: code, label: name })).map((item) => (
+                {shipping_subdivision.map((item) => (
                   <MenuItem key={item.id} value={item.id}>
                     {item.label}
                   </MenuItem>
@@ -83,7 +86,7 @@ const AddressForm = ({ checkoutToken, test }) => {
             <Grid item xs={12} sm={6}>
               <InputLabel>Shipping Options</InputLabel>
               <Select value={shippingOption} fullWidth onChange={(e) => setShippingOption(e.target.value)}>
-                {shippingOptions.map((sO) => ({ id: sO.id, label: `${sO.description} - (${sO.price.formatted_with_symbol})` })).map((item) => (
+                {shipping_option.map((item) => (
                   <MenuItem key={item.id} value={item.id}>
                     {item.label}
                   </MenuItem>
